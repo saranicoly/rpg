@@ -5,9 +5,10 @@ class Character:
     self.name = name
     self.profession = profession
   
-  def validate_name(self):
+  @staticmethod
+  def validate_name(name):
     # the regex ensures that the name has only letters and underscores
-    if re.match(r'^\w[^\d\W]+$', self.name) and len(self.name)<16:
+    if re.match(r'^\w[^\d\W]+$', name) and len(name)<16:
       return True
     else:
       return False
