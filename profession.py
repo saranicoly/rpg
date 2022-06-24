@@ -17,3 +17,10 @@ class Profession:
       "battle_modifiers": {"attack": 19, "speed": 4}
     }
   }
+
+  @staticmethod
+  def validate_profession(profession):
+    if profession in Profession.professions:
+      return True
+    else:
+      return False
