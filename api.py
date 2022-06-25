@@ -4,17 +4,27 @@ import game
 
 app = FastAPI()
 
+
 @app.post("/new_character/")
 def create_item(name: str, profession: str):
-  try:
-    game.create_character(name, profession)
-    return JSONResponse(status_code=201, content="Character created")
-  except Exception as e:
-    return JSONResponse(status_code=400, content={"Error": str(e)})
+    try:
+        game.create_character(name, profession)
+        return JSONResponse(status_code=201, content="Character created")
+    except Exception as e:
+        return JSONResponse(status_code=400, content={"Error": str(e)})
+
 
 @app.get("/character/{name}")
 def retrieve_character(name: str):
-  try:
-    return game.retrieve_character(name)
-  except Exception as e:
-    return JSONResponse(status_code=400, content={"Error": str(e)})
+    try:
+        return game.retrieve_character(name)
+    except Exception as e:
+        return JSONResponse(status_code=400, content={"Error": str(e)})
+
+
+@app.get("/character/")
+def retrieve_all_characters():
+    try:
+        return game.characters
+    except Exception as e:
+        return JSONResponse(status_code=400, content={"Error": str(e)})
