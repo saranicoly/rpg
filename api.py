@@ -28,3 +28,10 @@ def retrieve_all_characters():
         return game.characters
     except Exception as e:
         return JSONResponse(status_code=400, content={"Error": str(e)})
+
+@app.post("/battle/{name1}/{name2}")
+def battle(name1: str, name2: str):
+    try:
+        return game.battle(name1, name2)
+    except Exception as e:
+        return JSONResponse(status_code=400, content={"Error": str(e)})
