@@ -1,9 +1,11 @@
 import re
+from profession import Profession
 
 class Character:
-  def __init__(self, name, profession):
+  def __init__(self, name, profession: Profession):
     self.name = name
     self.profession = profession
+    self.is_alive = True
   
   @staticmethod
   def validate_name(name):

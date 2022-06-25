@@ -11,3 +11,10 @@ def create_item(name: str, profession: str):
     return JSONResponse(status_code=201, content="Character created")
   except Exception as e:
     return JSONResponse(status_code=400, content={"Error": str(e)})
+
+@app.get("/character/{name}")
+def retrieve_character(name: str):
+  try:
+    return game.retrieve_character(name)
+  except Exception as e:
+    return JSONResponse(status_code=400, content={"Error": str(e)})
