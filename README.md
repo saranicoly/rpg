@@ -30,6 +30,7 @@
 - `app/profession.py`: Classe Profession.
 - `README.md`: arquivo que contém o README do desafio.
 - `requirements.txt`: arquivo que contém as dependências necessárias para rodar o jogo.
+- `Dockerfile`: arquivo que contém as configurações do docker para rodar o jogo.
 
 ## Rodando o projeto
 
