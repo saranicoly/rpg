@@ -19,8 +19,7 @@ def retrieve_character(name: str):
     try:
         return game.retrieve_character(name)
     except Exception as e:
-        raise e
-        return JSONResponse(status_code=400, content={"Error": str(e)})
+        return JSONResponse(status_code=404, content={"Error": str(e)})
 
 
 @app.get("/character/")
@@ -35,5 +34,4 @@ def battle(name1: str, name2: str):
     try:
         return game.battle(name1, name2)
     except Exception as e:
-        raise e
         return JSONResponse(status_code=400, content={"Error": str(e)})
