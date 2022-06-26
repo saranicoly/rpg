@@ -135,7 +135,7 @@ def calculate_atack(attack: int) -> int:
 
 
 log_messages = {
-    "speed_winner": "O {char1} ({speed1}) foi mais veloz que o {char2} ({speed2}) e irá começar!",
+    "speed_winner": "{char1} ({speed1}) foi mais veloz que o {char2} ({speed2}) e irá começar!",
     "attack": "{char1} atacou o {char2} com {damage} de dano, {char2} com {life} pontos de vida restantes!",
     "winner": "{char1} venceu a batalha! {char1} ainda tem {life} pontos de vida restantes!",
 }
