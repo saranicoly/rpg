@@ -42,7 +42,7 @@ def retrieve_all_characters() -> list:
 def battle(name1: str, name2: str) -> list:
     battle_log = []
 
-    c = [retrieve_character(name1), retrieve_character(name2)]
+    char = [retrieve_character(name1), retrieve_character(name2)]
     c1_attributes = Profession.get_battle_modifiers(c[0])
     c2_attributes = Profession.get_battle_modifiers(c[1])
     char_attributes = [
@@ -62,51 +62,55 @@ def battle(name1: str, name2: str) -> list:
     char_attributes[0]["speed"] = c1_speed
     char_attributes[1]["speed"] = c2_speed
 
+    # those variables are going to help us with a python trick that easily allows
+    # us to select the faster character without needing to use a conditional statement
+    # every time, since if c1_speed > c2_speed, c1_speed will be the faster one, thus
+    # returning True, which evaluates to 1, selecting our second character, and vice versa
     is_c1_faster = c1_speed > c2_speed
     is_c2_faster = c1_speed < c2_speed
     battle_log.append(
         log_messages["speed_winner"].format(
-            char1=c[is_c2_faster].name,
-            char2=c[is_c1_faster].name,
+            char1=char[is_c2_faster].name,
+            char2=char[is_c1_faster].name,
             speed1=char_attributes[is_c2_faster]["speed"],
             speed2=char_attributes[is_c1_faster]["speed"],
         )
     )
-    while c[0].life > 0 and c[1].life > 0:
+    while char[0].life > 0 and char[1].life > 0:
         damage = calculate_atack(char_attributes[is_c2_faster]["attack"])
 
-        c[is_c1_faster].life -= damage
+        char[is_c1_faster].life -= damage
         battle_log.append(
             log_messages["attack"].format(
-                char1=c[is_c2_faster].name,
-                char2=c[is_c1_faster].name,
+                char1=char[is_c2_faster].name,
+                char2=char[is_c1_faster].name,
                 damage=damage,
-                life=(c[is_c1_faster].life if c[is_c1_faster].life >= 0 else 0),
+                life=(char[is_c1_faster].life if char[is_c1_faster].life >= 0 else 0),
             )
         )
 
         damage = calculate_atack(char_attributes[is_c1_faster]["attack"])
-        c[is_c2_faster].life -= damage
+        char[is_c2_faster].life -= damage
         battle_log.append(
             log_messages["attack"].format(
-                char1=c[is_c1_faster].name,
-                char2=c[is_c2_faster].name,
+                char1=char[is_c1_faster].name,
+                char2=char[is_c2_faster].name,
                 damage=damage,
-                life=(c[is_c2_faster].life if c[is_c2_faster].life >= 0 else 0),
+                life=(char[is_c2_faster].life if char[is_c2_faster].life >= 0 else 0),
             )
         )
 
-    if c[0].life <= 0:
-        c[0].life = 0
-        c[0].is_alive = False
+    if char[0].life <= 0:
+        char[0].life = 0
+        char[0].is_alive = False
         battle_log.append(
-            log_messages["winner"].format(char1=c[1].name, life=c[1].life)
+            log_messages["winner"].format(char1=char[1].name, life=char[1].life)
         )
     else:
-        c[1].life = 0
-        c[1].is_alive = False
+        char[1].life = 0
+        char[1].is_alive = False
         battle_log.append(
-            log_messages["winner"].format(char1=c[0].name, life=c[0].life)
+            log_messages["winner"].format(char1=char[0].name, life=char[0].life)
         )
 
     return battle_log
