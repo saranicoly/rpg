@@ -112,8 +112,12 @@ def battle(name1: str, name2: str) -> list:
     return battle_log
 
 
-def calculate_random_speeds(speed1, speed2):
-    return (random.randint(0, speed1 + 1), random.randint(0, speed2 + 1))
+def calculate_random_speeds(speed1: int, speed2: int) -> tuple:
+    return (random.randint(0, speed1), random.randint(0, speed2))
+
+
+def calculate_atack(attack: int) -> int:
+    return random.randint(0, attack)
 
 
 log_messages = {
