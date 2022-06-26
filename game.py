@@ -62,36 +62,51 @@ def battle(name1: str, name2: str) -> list:
     char_attributes[0]["speed"] = c1_speed
     char_attributes[1]["speed"] = c2_speed
 
+    is_c1_faster = c1_speed > c2_speed
+    is_c2_faster = c1_speed < c2_speed
     battle_log.append(
-        f"{c[c1_speed < c2_speed].name} ({char_attributes[c1_speed < c2_speed]['speed']}) foi mais veloz que o {c[c1_speed > c2_speed].name} ({char_attributes[c1_speed > c2_speed]['speed']}) e irá começar!"
+        log_messages["speed_winner"].format(
+            char1=c[is_c2_faster].name,
+            char2=c[is_c1_faster].name,
+            speed1=char_attributes[is_c2_faster]["speed"],
+            speed2=char_attributes[is_c1_faster]["speed"],
+        )
     )
     while c[0].life > 0 and c[1].life > 0:
-        damage = calculate_atack(char_attributes[c1_speed < c2_speed]["attack"])
+        damage = calculate_atack(char_attributes[is_c2_faster]["attack"])
 
-        is_c1_faster = c1_speed > c2_speed
-        is_c2_faster = c1_speed < c2_speed
-        c[is_c2_faster].life -= damage
+        c[is_c1_faster].life -= damage
         battle_log.append(
-            f"{c[is_c2_faster].name} atacou {c[is_c1_faster].name} com {damage} de dano, {c[is_c1_faster].name} com {c[is_c1_faster].life if c[is_c1_faster] >=0 else 0} pontos de vida restantes;"
+            log_messages["attack"].format(
+                char1=c[is_c2_faster].name,
+                char2=c[is_c1_faster].name,
+                damage=damage,
+                life=(c[is_c1_faster].life if c[is_c1_faster].life >= 0 else 0),
+            )
         )
 
         damage = calculate_atack(char_attributes[is_c1_faster]["attack"])
         c[is_c2_faster].life -= damage
         battle_log.append(
-            f"{c[is_c1_faster].name} atacou {c[is_c2_faster].name} com {damage} de dano, {c[is_c2_faster].name} com {c[is_c2_faster].life if c[is_c2_faster] >=0 else 0} pontos de vida restantes;"
+            log_messages["attack"].format(
+                char1=c[is_c1_faster].name,
+                char2=c[is_c2_faster].name,
+                damage=damage,
+                life=(c[is_c2_faster].life if c[is_c2_faster].life >= 0 else 0),
+            )
         )
 
     if c[0].life <= 0:
         c[0].life = 0
         c[0].is_alive = False
         battle_log.append(
-            f"{c[1].name} venceu a batalha! {c[1].name} ainda tem {c[1].life} pontos de vida restantes!"
+            log_messages["winner"].format(char1=c[1].name, life=c[1].life)
         )
     else:
         c[1].life = 0
         c[1].is_alive = False
         battle_log.append(
-            f"{c[0].name} venceu a batalha! {c[0].name} ainda tem {c[0].life} pontos de vida restantes!"
+            log_messages["winner"].format(char1=c[0].name, life=c[0].life)
         )
 
     return battle_log
@@ -101,5 +116,8 @@ def calculate_random_speeds(speed1, speed2):
     return (random.randint(0, speed1 + 1), random.randint(0, speed2 + 1))
 
 
-def calculate_atack(attack):
-    return random.randint(0, attack + 1)
+log_messages = {
+    "speed_winner": "O {char1} ({speed1}) foi mais veloz que o {char2} ({speed2}) e irá começar!",
+    "attack": "{char1} atacou o {char2} com {damage} de dano, {char2} com {life} pontos de vida restantes!",
+    "winner": "{char1} venceu a batalha! {char1} ainda tem {life} pontos de vida restantes!",
+}
