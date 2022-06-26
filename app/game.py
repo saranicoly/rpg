@@ -1,4 +1,3 @@
-
 import random
 from typing import Union
 
@@ -20,13 +19,13 @@ def create_character(name: str, profession: str) -> None:
     characters.append(Character(name, profession))
 
 
-def retrieve_character(name: str, full_data: bool=True) -> Union[Character,dict]:
+def retrieve_character(name: str, full_data: bool = True) -> Union[Character, dict]:
     for character in characters:
         if character.name == name:
             print(character)
             if full_data:
                 return character
-            else: # short form for all chars view
+            else:  # short form for all chars view
                 return {
                     "name": character.name,
                     "profession": character.profession,
@@ -43,8 +42,14 @@ def battle(name1: str, name2: str) -> list:
     battle_log = []
 
     char = [retrieve_character(name1), retrieve_character(name2)]
-    c1_attributes = Profession.get_battle_modifiers(c[0])
-    c2_attributes = Profession.get_battle_modifiers(c[1])
+
+    if not char[0].is_alive:
+        raise Exception("Character 1 is dead")
+    if not char[1].is_alive:
+        raise Exception("Character 2 is dead")
+
+    c1_attributes = Profession.get_battle_modifiers(char[0])
+    c2_attributes = Profession.get_battle_modifiers(char[1])
     char_attributes = [
         {},
         {},
@@ -89,6 +94,16 @@ def battle(name1: str, name2: str) -> list:
             )
         )
 
+        if char[is_c1_faster].life <= 0:
+            char[is_c1_faster].life = 0
+            char[is_c1_faster].is_alive = False
+            battle_log.append(
+                log_messages["winner"].format(
+                    char1=char[is_c2_faster].name, life=char[is_c2_faster].life
+                )
+            )
+            return battle_log
+
         damage = calculate_atack(char_attributes[is_c1_faster]["attack"])
         char[is_c2_faster].life -= damage
         battle_log.append(
@@ -100,20 +115,15 @@ def battle(name1: str, name2: str) -> list:
             )
         )
 
-    if char[0].life <= 0:
-        char[0].life = 0
-        char[0].is_alive = False
-        battle_log.append(
-            log_messages["winner"].format(char1=char[1].name, life=char[1].life)
-        )
-    else:
-        char[1].life = 0
-        char[1].is_alive = False
-        battle_log.append(
-            log_messages["winner"].format(char1=char[0].name, life=char[0].life)
-        )
-
-    return battle_log
+        if char[is_c2_faster].life <= 0:
+            char[is_c2_faster].life = 0
+            char[is_c2_faster].is_alive = False
+            battle_log.append(
+                log_messages["winner"].format(
+                    char1=char[is_c1_faster].name, life=char[is_c1_faster].life
+                )
+            )
+            return battle_log
 
 
 def calculate_random_speeds(speed1: int, speed2: int) -> tuple:
