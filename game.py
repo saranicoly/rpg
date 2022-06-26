@@ -1,25 +1,32 @@
+
+import random
+from typing import Union
+
 from character import Character
 from profession import Profession
-import random
 
 characters = []
 
 
-def create_character(name, profession):
-    if Character.validate_name(name) and Profession.validate_profession(profession):
-        # TODO: deixar as validacoes de cada classe separadas e adicionar validacao para nome unico
-        characters.append(Character(name, profession))
-    else:
-        raise Exception("Invalid name or profession")
+def create_character(name: str, profession: str) -> None:
+    if not Character.validate_name(name):
+        raise Exception("Invalid name")
+    if not Profession.validate_profession(profession):
+        raise Exception("Invalid profession")
+    for character in characters:
+        if character.name == name:
+            raise Exception(f"Character {name} already exists")
+
+    characters.append(Character(name, profession))
 
 
-def retrieve_character(name, full_data=True):
+def retrieve_character(name: str, full_data: bool=True) -> Union[Character,dict]:
     for character in characters:
         if character.name == name:
             print(character)
             if full_data:
                 return character
-            else:
+            else: # short form for all chars view
                 return {
                     "name": character.name,
                     "profession": character.profession,
@@ -28,11 +35,11 @@ def retrieve_character(name, full_data=True):
     raise Exception("Character not found")
 
 
-def retrieve_all_characters():
+def retrieve_all_characters() -> list:
     return [retrieve_character(character.name, False) for character in characters]
 
 
-def battle(name1, name2):
+def battle(name1: str, name2: str) -> list:
     battle_log = []
 
     c = [retrieve_character(name1), retrieve_character(name2)]
