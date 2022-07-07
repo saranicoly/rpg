@@ -4,8 +4,9 @@
 
 ### Decisões Iniciais
 
-- Havia a possibilidade de usar qualquer linguagem e eu escolhi Python por já ter alguma familiaridade com FastAPI, que considereibum framework bastante adequado para esse desafio, por não ter muito boilerplate code.
+- EU escolhi fazer o código em Python por já ter alguma familiaridade com FastAPI, que considerei um framework bastante adequado para esse desafio, por não ter muito boilerplate code.
 - Caso o código em si fosse mais robusto, eu provavelmente iria fazer em Ruby on Rails.
+- A descrição do desafio pode ser acessada em: [Descrição](description.md).
 
 ### Decisões no decorrer do desenvolvimento
 
