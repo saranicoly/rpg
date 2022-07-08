@@ -48,8 +48,8 @@ Para executar o projeto, basta seguir o seguinte passo a passo:
 Caso deseje, também é possível executar a aplicação através do Docker. Para isso, basta seguir os seguintes passos:
 
 - Ter o docker instalado na sua máquina
-- Criar a imagem com o seguinte comando, a partir da raiz do projeto: `docker build -t testloft .`
-- Executar o container com `docker run -p 8080:80 -it testloft`
+- Criar a imagem com o seguinte comando, a partir da raiz do projeto: `docker build -t rpg .`
+- Executar o container com `docker run -p 8080:80 -it rpg`
 - Abrir o navegador no endereço `0.0.0.0:8080/docs`
 - Explorar a API a partir desse endereço.
 
